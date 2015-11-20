@@ -9,3 +9,8 @@ The tool uses 4 command line parameters:
 * port number - default port number for metamap server is 8066, so you can use that number
 * directory with files. The tool with use filenames as sourceid in PubAnnotation format
 * Name of sourcedb - usually PMC or PubMed
+
+Command line example:
+``` 
+java -jar MetaMap2PubAnnotation.jar localhost 8066 example/ PMC
+```

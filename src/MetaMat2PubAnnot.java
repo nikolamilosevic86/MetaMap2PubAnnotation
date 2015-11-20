@@ -31,8 +31,8 @@ public class MetaMat2PubAnnot {
 		 */
 		api = new MetaMapApiImpl();
 		System.out.println(api.DEFAULT_SERVER_HOST);
-		api.setHost("localhost");// "gnode1.mib.man.ac.uk");
-		api.setPort(8066);
+		api.setHost(host);// "gnode1.mib.man.ac.uk");
+		api.setPort(port);
 
 		// get and set parameters
 		// List<String> theOptions = FileOps.getFileContentAsList(new
@@ -67,29 +67,6 @@ public class MetaMat2PubAnnot {
 		for (Result result : resultList) {
 			for (Utterance utterance : result.getUtteranceList()) {
 				for (PCM pcm : utterance.getPCMList()) {
-					/*
-					 * for (Ev ev: pcm.getCandidatesInstance().getEvList()) {
-					 * System.out.println(" Candidate:");
-					 * System.out.println("  Score: " + ev.getScore());
-					 * System.out.println("  Concept Id: " + ev.getConceptId());
-					 * System.out.println("  Concept Name: " +
-					 * ev.getConceptName());
-					 * System.out.println("  Preferred Name: " +
-					 * ev.getPreferredName());
-					 * System.out.println("  Matched Words: " +
-					 * ev.getMatchedWords());
-					 * System.out.println("  Semantic Types: " +
-					 * ev.getSemanticTypes().get(0));
-					 * System.out.println("  MatchMap: " + ev.getMatchMap());
-					 * System.out.println("  MatchMap alt. repr.: " +
-					 * ev.getMatchMapList()); System.out.println("  is Head?: "
-					 * + ev.isHead()); System.out.println("  is Overmatch?: " +
-					 * ev.isOvermatch()); System.out.println("  Sources: " +
-					 * ev.getSources());
-					 * System.out.println("  Positional Info: " +
-					 * ev.getPositionalInfo()); }
-					 */
-
 					for (Mapping map : pcm.getMappingList()) {
 						for (Ev mapEv : map.getEvList()) {
 
@@ -115,8 +92,6 @@ public class MetaMat2PubAnnot {
 							mp.put(i++, mapEv.getSources().toString());
 
 							mp.put(i++, mapEv.getPreferredName());
-							// add further attributes here (and in run(gateDoc)
-							// --> gateMap.put(///))
 						}
 					}
 				}
@@ -183,13 +158,10 @@ public class MetaMat2PubAnnot {
 				JSONArray denotations = new JSONArray();
 
 				for (int j = 0; j < aMap.size(); j += 9) {
-					// System.out.println("MetaMap (" +j + "): " + aMap.get(j));
 					String conceptId = aMap.get(j);
 					String position = aMap.get(j + 2);
-					//System.out.println(position);
 					position = position.substring(2, position.length() - 2);
 					String semanticType = aMap.get(j + 3);
-					// System.out.println(position);
 					String[] positions;
 					if (position.contains("), ")) {
 						positions = position.split("\\), \\(");
@@ -198,7 +170,6 @@ public class MetaMat2PubAnnot {
 						positions[0] = position;
 					}
 					for (int k = 0; k < positions.length; k++) {
-						//System.out.println(positions[k]);
 						String[] span = positions[k].split(",");
 						int start = Integer.parseInt(span[0]);
 						int end = start + Integer.parseInt(span[1].trim());
